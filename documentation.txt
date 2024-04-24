@@ -1,0 +1,214 @@
+## User Registration Endpoint
+
+### Register a new user
+
+Registers a new user with the provided username, email, and password.
+
+- **URL**
+
+  `http://127.0.0.1:8000/api/auth/register`
+
+- **Method**
+
+  `POST`
+
+- **Request Body**
+
+  | Field     | Type   | Description                   |
+  | --------- | ------ | ----------------------------- |
+  | username  | string | User's desired username      |
+  | email     | string | User's email address         |
+  | password  | string | User's desired password      |
+
+- **Success Response**
+
+  - **Code:** 201 CREATED
+  - **Content:** `{ "message": "User registered successfully" }`
+
+- **Error Responses**
+
+  - **Code:** 400 BAD REQUEST
+    - **Content:** `{ "message": "User already exists" }`
+  - **Code:** 500 INTERNAL SERVER ERROR
+    - **Content:** `{ "message": "Internal server error" }`
+
+---
+
+## User Login Endpoint
+
+### Authenticate user and generate JWT token
+
+Authenticates the user with the provided email and password, and generates a JWT token for authentication.
+
+- **URL**
+
+  `http://127.0.0.1:8000/api/auth/login`
+
+- **Method**
+
+  `POST`
+
+- **Request Body**
+
+  | Field     | Type   | Description             |
+  | --------- | ------ | ----------------------- |
+  | email     | string | User's email address    |
+  | password  | string | User's password         |
+
+- **Success Response**
+
+  - **Code:** 200 OK
+  - **Content:** `{ "token": "<JWT token>" }`
+
+- **Error Responses**
+
+  - **Code:** 400 BAD REQUEST
+    - **Content:** `{ "message": "Invalid credentials" }`
+  - **Code:** 500 INTERNAL SERVER ERROR
+    - **Content:** `{ "message": "Internal server error" }`
+
+
+
+## Get All Books Endpoint
+
+### Retrieve all books with optional filtering
+
+Retrieves a list of all books from the database. Optionally, you can filter the books by author and/or publication year.
+
+- **URL**
+
+  `http://127.0.0.1:8000/api/books     or           http://127.0.0.1:8000/api/books?publicationYear=2007&author=someone`
+
+- **Method**
+
+  `GET`
+
+- **Query Parameters**
+
+  | Parameter         | Type   | Description                        |
+  | ----------------- | ------ | ---------------------------------- |
+  | author (optional) | string | Filter books by author             |
+  | publicationYear (optional) | number | Filter books by publication year  |
+
+- **Success Response**
+
+  - **Code:** 200 OK
+  - **Content:** Array of book objects
+
+- **Error Response**
+
+  - **Code:** 500 INTERNAL SERVER ERROR
+    - **Content:** `{ "message": "Internal server error" }`
+
+---
+
+## Create Book Endpoint
+
+### Create a new book
+
+Creates a new book with the provided title, author, and publication year.
+
+- **URL**
+
+  `http://127.0.0.1:8000/api/books/createBook`
+
+- **Method**
+
+  `POST`
+
+- **Request Body**
+
+  | Field           | Type   | Description                   |
+  | --------------- | ------ | ----------------------------- |
+  | title           | string | Title of the book             |
+  | author          | string | Author of the book            |
+  | publicationYear | number | Publication year of the book  |
+
+- **Success Response**
+
+  - **Code:** 201 CREATED
+  - **Content:** `{ "message": "Book created successfully", "book": { ... } }`
+
+- **Error Responses**
+
+  - **Code:** 400 BAD REQUEST
+    - **Content:** `{ "message": "Book already exists" }`
+  - **Code:** 500 INTERNAL SERVER ERROR
+    - **Content:** `{ "message": "Internal server error" }`
+
+---
+
+## Update Book Endpoint
+
+### Update an existing book
+
+Updates the properties of an existing book identified by its ID.
+
+- **URL**
+
+  `http://127.0.0.1:8000/api/books/updateBook/:id`
+
+- **Method**
+
+  `PUT`
+
+- **URL Parameters**
+
+  | Parameter | Type   | Description                 |
+  | --------- | ------ | --------------------------- |
+  | id        | string | ID of the book to be updated|
+
+- **Request Body**
+
+  | Field           | Type   | Description                   |
+  | --------------- | ------ | ----------------------------- |
+  | title           | string | Updated title of the book     |
+  | author          | string | Updated author of the book    |
+  | publicationYear | number | Updated publication year of the book  |
+
+- **Success Response**
+
+  - **Code:** 200 OK
+  - **Content:** `{ "message": "Book updated successfully", "book": { ... } }`
+
+- **Error Responses**
+
+  - **Code:** 405 METHOD NOT ALLOWED
+    - **Content:** `{ "message": "Book not found" }`
+  - **Code:** 500 INTERNAL SERVER ERROR
+    - **Content:** `{ "message": "Internal server error" }`
+
+---
+
+## Delete Book Endpoint
+
+### Delete an existing book
+
+Deletes a book from the database based on its ID.
+
+- **URL**
+
+  `http://127.0.0.1:8000/api/books/deleteBook/:id`
+
+- **Method**
+
+  `DELETE`
+
+- **URL Parameters**
+
+  | Parameter | Type   | Description                 |
+  | --------- | ------ | --------------------------- |
+  | id        | string | ID of the book to be deleted|
+
+- **Success Response**
+
+  - **Code:** 200 OK
+  - **Content:** `{ "message": "Book deleted successfully" }`
+
+- **Error Responses**
+
+  - **Code:** 404 NOT FOUND
+    - **Content:** `{ "message": "Book not found" }`
+  - **Code:** 500 INTERNAL SERVER ERROR
+    - **Content:** `{ "message": "Internal server error" }`
+
